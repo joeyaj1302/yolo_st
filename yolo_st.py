@@ -52,7 +52,7 @@ def load_file(option):
 file1 = load_file(option)
 
 main_path = "main_path"
-output_path = "output_path"
+output_path = "./output_path"
 Labels_path = os.path.join(main_path,'coco.names')
 LABELS = open(Labels_path).read().strip().split("\n")
 st.write(" The following items can be classified by the ml model :",LABELS)
