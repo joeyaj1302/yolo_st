@@ -3,9 +3,10 @@ import streamlit as st
 import cv2
 import numpy as np
 import os
-import io
 import time
+import io
 from PIL import Image
+import shutil
 
 st.set_option('deprecation.showfileUploaderEncoding', False)
 st.title("Welcome to the Object detection Web App")
@@ -42,6 +43,7 @@ def load_file(option):
         file1 = st.file_uploader("Upload a video",type = ['mp4'])
         g = io.BytesIO(file1.read())  ## BytesIO Object
         temporary_location = "testout_sample.mp4"
+
         with open(temporary_location, 'wb') as out:  ## Open temporary file as bytes
             out.write(g.read())  ## Read bytes into file
             # close file
@@ -76,9 +78,9 @@ if option=="IMAGE":
     blob = cv2.dnn.blobFromImage(image, 1 / 255.0, (416, 416),
 	swapRB=True, crop=False)
     model.setInput(blob)
-    #start = time.time()
+    start = time.time()
     layerOutputs = model.forward(ln)
-    #end = time.time()
+    end = time.time()
 
     # initialize our lists of detected bounding boxes, confidences, and
     # class IDs, respectively
@@ -116,8 +118,7 @@ if option=="IMAGE":
             text = "{}: {}%".format(LABELS[classIDs[i]], int(confidences[i]*100))  #Annotating the text of the class label
             cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,
                 1, color, 2)
-    img = Image.open(file1)
-    st.image(img,caption = "This was your selected image")
+    st.image(file1,caption = "This was your selected image")
     st.write("==============================================================")
     st.image(image,"The detections on your selected image")
 
@@ -130,8 +131,9 @@ elif option=="VIDEO":
     (W,H) = (None,None)
     #video_path = os.path.join(main_path,a)
     vid = cv2.VideoCapture(file1)
-    st.write("The Machine learning model is being fed by your video")	
-    st.write(str(file1))
+    st.write("The Machine learning model is being fed by your video")
+    os.mkdir('out_path1')
+    video_out_path = os.path.join('out_path1',file1)
     while True:
         (confirmed , frame) = vid.read() #getting frames from video stream
         if not confirmed:
@@ -181,7 +183,8 @@ elif option=="VIDEO":
         #Check if the video writer is None
         if writer is None:
             #Initialize our video writer to write the output video with predictions to output path specified on disk
-            video_out_path = os.path.join(output_path,file1)
+            #out_path = "."
+            #video_out_path = os.path.join(out_path,file1)
             fourcc = cv2.VideoWriter_fourcc(*'H264')
             writer = cv2.VideoWriter(video_out_path, fourcc, 30,(frame.shape[1], frame.shape[0]), True)
 
@@ -191,4 +194,5 @@ elif option=="VIDEO":
     writer.release()
     vid.release()
     st.write("=========================Done====================================")
-    st.video(video_out_path)              
+    st.video(video_out_path)    
+    shutil.rmtree('out_path1', ignore_errors=True)                
