@@ -38,7 +38,7 @@ def load_file(option):
         file1 = st.file_uploader("Upload an image",type = ['png','jpg','jpeg'])       
         return file1
     elif option =="VIDEO":
-        folder_path='.'
+        folder_path='output_path'
         filenames = os.listdir(folder_path)
         file1 = st.file_uploader("Upload a video",type = ['mp4'])
         g = io.BytesIO(file1.read())  ## BytesIO Object
@@ -52,7 +52,7 @@ def load_file(option):
 file1 = load_file(option)
 
 main_path = "main_path"
-output_path = "./output_path"
+output_path = "output_path"
 Labels_path = os.path.join(main_path,'coco.names')
 LABELS = open(Labels_path).read().strip().split("\n")
 st.write(" The following items can be classified by the ml model :",LABELS)
@@ -132,7 +132,8 @@ elif option=="VIDEO":
     vid = cv2.VideoCapture(file1)
     st.write("The Machine learning model is being fed by your video")
     #os.mkdir('out_path2')
-    video_out_path = os.path.join(output_path,"testout_sample.mp4")
+    video_out_path = os.path.sep.join(".","sample.mp4")
+    st.write(video_out_path)
     while True:
         (confirmed , frame) = vid.read() #getting frames from video stream
         if not confirmed:
