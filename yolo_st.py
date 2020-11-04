@@ -4,6 +4,7 @@ import cv2
 import numpy as np
 import os
 import io
+import time
 from PIL import Image
 
 st.set_option('deprecation.showfileUploaderEncoding', False)
