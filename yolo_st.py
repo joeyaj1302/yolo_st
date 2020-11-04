@@ -132,7 +132,7 @@ elif option=="VIDEO":
     vid = cv2.VideoCapture(file1)
     st.write("The Machine learning model is being fed by your video")
     os.mkdir('out_path4')
-    temp = "sample.mp4
+    temp = "sample.mp4"
     video_out_path = os.path.join('out_path4',temp)
     st.write(video_out_path)
     while True:
@@ -180,7 +180,7 @@ elif option=="VIDEO":
                 text = "{}: {}%".format(LABELS[classIDs[i]], int(confidences[i]*100))
                 cv2.putText(frame,text,(x, y - 5),cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.5, color, 2)
                 #cv2.imshow("video",frame)               #For displaying the frame being passed through the model and showing real time predictions
-		st.image("video",frame)
+	st.image("video",frame)
         #Check if the video writer is None
         if writer is None:
             #Initialize our video writer to write the output video with predictions to output path specified on disk
