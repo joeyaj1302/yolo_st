@@ -141,7 +141,7 @@ elif option=="VIDEO":
         if W is None and H is None:
             (H,W) = frame.shape[:2]
          
-        blob = cv2.dnn.blobFromImage(frame, 1/255.0, (416, 416), swapRB=True, crop=False)  #BLob is similar to Image augmentation present in image data generators                                                                                         
+        blob = cv2.dnn.blobFromImage(frame, 1/255.0, (416, 416), swapRB=False, crop=False)  #BLob is similar to Image augmentation present in image data generators                                                                                         
         model.setInput(blob)                                                                 #of tensorflow
         start = time.time()
         layer_outputs = model.forward(ln)         #The captured frame is being passsed into the yolo model and the output is stored in layer_outputs
@@ -182,7 +182,7 @@ elif option=="VIDEO":
 	        #st.image("video",frame)
         #Check if the video writer is None
         i+=1
-        if i%300==0:
+        if i%45==0:
             st.image(frame,"video")
             #cv2.imwrite("out_path4\img{}.jpg".format(i),frame)       
         if writer is None:
@@ -194,7 +194,7 @@ elif option=="VIDEO":
         writer.write(frame)
         
 
-    st.video(video_out_path)
+    #st.video(video_out_path)
     writer.release()
     vid.release()
     st.write("=========================Done====================================")
