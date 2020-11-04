@@ -179,8 +179,8 @@ elif option=="VIDEO":
                 cv2.rectangle(frame,(x,y),(x+w,y+h),color,3)
                 text = "{}: {}%".format(LABELS[classIDs[i]], int(confidences[i]*100))
                 cv2.putText(frame,text,(x, y - 5),cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.5, color, 2)
-                #cv2.imshow("video",frame)               #For displaying the frame being passed through the model and showing real time predictions
-	st.image("video",frame)
+                #cv2.imshow("video",frame)  #For displaying the frame being passed through the model and showing real time predictions
+	        st.image("video",frame)
         #Check if the video writer is None
         if writer is None:
             #Initialize our video writer to write the output video with predictions to output path specified on disk
