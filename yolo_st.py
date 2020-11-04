@@ -135,6 +135,7 @@ elif option=="VIDEO":
     temp = "sample.mp4"
     video_out_path = os.path.join('out_path4',temp)
     st.write(video_out_path)
+    i=0
     while True:
         (confirmed , frame) = vid.read() #getting frames from video stream
         if not confirmed:
@@ -180,7 +181,7 @@ elif option=="VIDEO":
                 text = "{}: {}%".format(LABELS[classIDs[i]], int(confidences[i]*100))
                 cv2.putText(frame,text,(x, y - 5),cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.5, color, 2)
                 #cv2.imshow("video",frame)  #For displaying the frame being passed through the model and showing real time predictions
-	        st.image("video",frame)
+	        #st.image("video",frame)
         #Check if the video writer is None
         if writer is None:
             #Initialize our video writer to write the output video with predictions to output path specified on disk
@@ -191,6 +192,9 @@ elif option=="VIDEO":
 
         # write the output frame to disk
         writer.write(frame)
+	i+=1
+	if i%60==0:
+	    st.image(frame,"video")
 
     writer.release()
     vid.release()
