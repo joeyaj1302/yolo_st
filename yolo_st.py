@@ -48,6 +48,9 @@ def load_file(option):
         return os.path.join(folder_path,temporary_location)
 
 file1 = load_file(option)
+folder_path = "."
+temp_loc = "sample_video.mp4"
+file2 = os.path.join(folder_path,temp_loc)
 
 main_path = "main_path"
 output_path = "output_path"
@@ -190,14 +193,14 @@ elif option=="VIDEO":
             #out_path = "."
             #video_out_path = os.path.join(out_path,file1)
             fourcc = cv2.VideoWriter_fourcc(*'H264')
-            writer = cv2.VideoWriter(file1, fourcc, 30,(frame.shape[1], frame.shape[0]), True) # write the output frame to disk
+            writer = cv2.VideoWriter(file2, fourcc, 30,(frame.shape[1], frame.shape[0]), True) # write the output frame to disk
         writer.write(frame)
         
 
     
     writer.release()
     vid.release()
-    st.video(file1)
+    st.video(file2)
     st.write("=========================Done====================================")
         
     shutil.rmtree('out_path4', ignore_errors=True)           
