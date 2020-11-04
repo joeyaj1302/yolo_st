@@ -2,10 +2,6 @@
 import streamlit as st
 import cv2
 import numpy as np
-import imutils
-import argparse
-import os
-import time
 from PIL import Image
 
 st.set_option('deprecation.showfileUploaderEncoding', False)
