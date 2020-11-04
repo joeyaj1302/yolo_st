@@ -108,7 +108,8 @@ if option=="IMAGE":
             text = "{}: {}%".format(LABELS[classIDs[i]], int(confidences[i]*100))  #Annotating the text of the class label
             cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,
                 1, color, 2)
-    st.image(file1,caption = "This was your selected image")
+    img = Image.open(file1)
+    st.image(img,caption = "This was your selected image")
     st.write("==============================================================")
     st.image(image,"The detections on your selected image")
 
