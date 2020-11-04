@@ -37,8 +37,14 @@ def load_file(option):
     elif option =="VIDEO":
         folder_path='.'
         filenames = os.listdir(folder_path)
-        selected_filename = st.selectbox('Upload a video', filenames)
-        return os.path.join(folder_path, selected_filename)
+        file1 = st.file_uploader("Upload a video",type = ['mp4'])
+        g = io.BytesIO(file1.read())  ## BytesIO Object
+        temporary_location = "testout_sample.mp4"
+        with open(temporary_location, 'wb') as out:  ## Open temporary file as bytes
+            out.write(g.read())  ## Read bytes into file
+            # close file
+            out.close()
+        return os.path.join(folder_path,temporary_location)
 
 file1 = load_file(option)
 
