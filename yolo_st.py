@@ -73,7 +73,7 @@ if option=="IMAGE":
     # determine only the *output* layer names that we need from YOLO
     #creating blob from image and passing it into the yolo model
     blob = cv2.dnn.blobFromImage(image, 1 / 255.0, (416, 416),
-	swapRB=True, crop=False)
+	swapRB=False, crop=False)
     model.setInput(blob)
     start = time.time()
     layerOutputs = model.forward(ln)
@@ -190,13 +190,14 @@ elif option=="VIDEO":
             #out_path = "."
             #video_out_path = os.path.join(out_path,file1)
             fourcc = cv2.VideoWriter_fourcc(*'H264')
-            writer = cv2.VideoWriter(video_out_path, fourcc, 30,(frame.shape[1], frame.shape[0]), True) # write the output frame to disk
+            writer = cv2.VideoWriter(file1, fourcc, 30,(frame.shape[1], frame.shape[0]), True) # write the output frame to disk
         writer.write(frame)
         
 
-    #st.video(video_out_path)
+    
     writer.release()
     vid.release()
+    st.video(file1)
     st.write("=========================Done====================================")
         
     shutil.rmtree('out_path4', ignore_errors=True)           
