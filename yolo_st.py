@@ -25,8 +25,6 @@ if st.checkbox("Click here for a short description of how the yolo algorithm wor
 
 st.write("For more detailed information on YOLO algorithm and its uses check the urls in the sidebar")
 st.sidebar.markdown('''### Click on the following URLs for detailed explaination:
-
-
 1. https://arxiv.org/pdf/1506.02640.pdf
 2. https://www.coursera.org/lecture/convolutional-neural-networks/yolo-algorithm-fF3O0 
 3. https://manalelaidouni.github.io/manalelaidouni.github.io/Understanding%20YOLO%20and%20YOLOv2.html''')
@@ -188,16 +186,12 @@ elif option=="VIDEO":
             #out_path = "."
             #video_out_path = os.path.join(out_path,file1)
             fourcc = cv2.VideoWriter_fourcc(*'H264')
-            writer = cv2.VideoWriter(video_out_path, fourcc, 30,(frame.shape[1], frame.shape[0]), True)
-
-        # write the output frame to disk
+            writer = cv2.VideoWriter(video_out_path, fourcc, 30,(frame.shape[1], frame.shape[0]), True) # write the output frame to disk
         writer.write(frame)
-	i+=1
-	if i%60==0:
-	    st.image(frame,"video")
-
+        if i%60000==0:
+            st.image(frame,"video")
     writer.release()
     vid.release()
     st.write("=========================Done====================================")
     st.video(video_out_path)    
-    shutil.rmtree('out_path4', ignore_errors=True)                
+    shutil.rmtree('out_path4', ignore_errors=True)           
