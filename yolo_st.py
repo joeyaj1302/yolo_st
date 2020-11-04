@@ -131,8 +131,8 @@ elif option=="VIDEO":
     #video_path = os.path.join(main_path,a)
     vid = cv2.VideoCapture(file1)
     st.write("The Machine learning model is being fed by your video")
-    os.mkdir('out_path2')
-    video_out_path = os.path.join("out_path2","sample.mp4")
+    os.mkdir('out_path3')
+    video_out_path = os.path.join("out_path3","file1)
     st.write(video_out_path)
     while True:
         (confirmed , frame) = vid.read() #getting frames from video stream
@@ -195,4 +195,4 @@ elif option=="VIDEO":
     vid.release()
     st.write("=========================Done====================================")
     st.video(video_out_path)    
-    #shutil.rmtree('out_path1', ignore_errors=True)                
+    shutil.rmtree('out_path3', ignore_errors=True)                
