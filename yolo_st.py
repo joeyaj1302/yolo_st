@@ -130,7 +130,8 @@ elif option=="VIDEO":
     (W,H) = (None,None)
     #video_path = os.path.join(main_path,a)
     vid = cv2.VideoCapture(file1)
-    st.write("The Machine learning model is being fed by your video")
+    st.write("The Machine learning model is being fed by your video")	
+    st.write(str(file1))
     while True:
         (confirmed , frame) = vid.read() #getting frames from video stream
         if not confirmed:
