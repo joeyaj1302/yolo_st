@@ -132,7 +132,7 @@ elif option=="VIDEO":
     vid = cv2.VideoCapture(file1)
     st.write("The Machine learning model is being fed by your video")
     #os.mkdir('out_path2')
-    #video_out_path = os.path.join('output_path',"testout_sample.mp4")
+    video_out_path = os.path.join(output_path,"testout_sample.mp4")
     while True:
         (confirmed , frame) = vid.read() #getting frames from video stream
         if not confirmed:
@@ -185,7 +185,7 @@ elif option=="VIDEO":
             #out_path = "."
             #video_out_path = os.path.join(out_path,file1)
             fourcc = cv2.VideoWriter_fourcc(*'H264')
-            writer = cv2.VideoWriter(output_path, fourcc, 30,(frame.shape[1], frame.shape[0]), True)
+            writer = cv2.VideoWriter(video_out_path, fourcc, 30,(frame.shape[1], frame.shape[0]), True)
 
         # write the output frame to disk
         writer.write(frame)
@@ -193,5 +193,5 @@ elif option=="VIDEO":
     writer.release()
     vid.release()
     st.write("=========================Done====================================")
-    st.video(output_path)    
+    st.video(video_out_path)    
     #shutil.rmtree('out_path1', ignore_errors=True)                
