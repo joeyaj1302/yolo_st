@@ -43,7 +43,6 @@ def load_file(option):
         file1 = st.file_uploader("Upload a video",type = ['mp4'])
         g = io.BytesIO(file1.read())  ## BytesIO Object
         temporary_location = "testout_sample.mp4"
-
         with open(temporary_location, 'wb') as out:  ## Open temporary file as bytes
             out.write(g.read())  ## Read bytes into file
             # close file
@@ -132,8 +131,8 @@ elif option=="VIDEO":
     #video_path = os.path.join(main_path,a)
     vid = cv2.VideoCapture(file1)
     st.write("The Machine learning model is being fed by your video")
-    os.mkdir('out_path1')
-    video_out_path = os.path.join('out_path1',file1)
+    os.mkdir('out_path2')
+    video_out_path = os.path.join('out_path2',file1)
     while True:
         (confirmed , frame) = vid.read() #getting frames from video stream
         if not confirmed:
@@ -178,7 +177,7 @@ elif option=="VIDEO":
                 cv2.rectangle(frame,(x,y),(x+w,y+h),color,3)
                 text = "{}: {}%".format(LABELS[classIDs[i]], int(confidences[i]*100))
                 cv2.putText(frame,text,(x, y - 5),cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.5, color, 2)
-                #cv2.imshow("video",frame)               #For displaying the frame being passed through the model and showing real time predictions
+                cv2.imshow("video",frame)               #For displaying the frame being passed through the model and showing real time predictions
 
         #Check if the video writer is None
         if writer is None:
@@ -195,4 +194,4 @@ elif option=="VIDEO":
     vid.release()
     st.write("=========================Done====================================")
     st.video(video_out_path)    
-    shutil.rmtree('out_path1', ignore_errors=True)                
+    #shutil.rmtree('out_path1', ignore_errors=True)                
