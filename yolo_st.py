@@ -68,9 +68,9 @@ if option=="IMAGE":
     blob = cv2.dnn.blobFromImage(image, 1 / 255.0, (416, 416),
 	swapRB=True, crop=False)
     model.setInput(blob)
-    start = time.time()
+    #start = time.time()
     layerOutputs = model.forward(ln)
-    end = time.time()
+    #end = time.time()
 
     # initialize our lists of detected bounding boxes, confidences, and
     # class IDs, respectively
