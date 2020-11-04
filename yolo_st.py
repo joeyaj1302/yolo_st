@@ -188,10 +188,12 @@ elif option=="VIDEO":
             fourcc = cv2.VideoWriter_fourcc(*'H264')
             writer = cv2.VideoWriter(video_out_path, fourcc, 30,(frame.shape[1], frame.shape[0]), True) # write the output frame to disk
         writer.write(frame)
-        if i%60000==0:
+	i+=1
+        if i%600==0:
             st.image(frame,"video")
+    st.video(video_out_path) 
     writer.release()
     vid.release()
     st.write("=========================Done====================================")
-    st.video(video_out_path)    
+   
     shutil.rmtree('out_path4', ignore_errors=True)           
