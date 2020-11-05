@@ -187,8 +187,7 @@ elif option=="VIDEO":
                 cv2.putText(frame,text,(x, y - 5),cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.5, color, 2)
                 #cv2.imshow("video",frame)  #For displaying the frame being passed through the model and showing real time predictions
 	        #st.image("video",frame)
-        #Check if the video writer is None
-        i+=1
+            #Check if the video writer is None
             if i%45==0:
                 st.image(frame,"video")
             #cv2.imwrite("out_path4\img{}.jpg".format(i),frame)       
@@ -199,6 +198,7 @@ elif option=="VIDEO":
             fourcc = cv2.VideoWriter_fourcc(*'MJPG')
             writer = cv2.VideoWriter(file2, fourcc, 30, (frame.shape[1], frame.shape[0]), True) # write the output frame to disk
         writer.write(frame)
+        i+=1
         
     writer.release()
     vid.release()
