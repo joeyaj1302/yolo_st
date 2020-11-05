@@ -124,7 +124,7 @@ if option=="IMAGE":
             cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)                 #drawing the bounding boxes over the detections
             text = "{}: {}%".format(LABELS[classIDs[i]], int(confidences[i]*100))  #Annotating the text of the class label
             cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,
-                1, color, 2)
+                0.5, color, 1)
     st.image(file1,caption = "This was your selected image")
     st.write("==============================================================")
     st.image(image,"The detections on your selected image")
@@ -196,7 +196,7 @@ elif option=="VIDEO":
                 color = [int(c) for c in COLORS[classIDs[i]]]
                 cv2.rectangle(frame,(x,y),(x+w,y+h),color,3)
                 text = "{}: {}%".format(LABELS[classIDs[i]], int(confidences[i]*100))
-                cv2.putText(frame,text,(x, y - 5),cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.5, color, 2)
+                cv2.putText(frame,text,(x, y - 5),cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, color, 2)
                 #cv2.imshow("video",frame)  #For displaying the frame being passed through the model and showing real time predictions
 	        #st.image("video",frame)
             #Check if the video writer is None
