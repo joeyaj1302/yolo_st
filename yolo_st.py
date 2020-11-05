@@ -196,7 +196,7 @@ elif option=="VIDEO":
             #Initialize our video writer to write the output video with predictions to output path specified on disk
             #out_path = "."
             #video_out_path = os.path.join(out_path,file1)
-            fourcc = cv2.VideoWriter_fourcc('*'H264')
+            fourcc = cv2.VideoWriter_fourcc(*'H264')
             writer = cv2.VideoWriter(file2, fourcc, 30, (frame.shape[1], frame.shape[0]), True) # write the output frame to disk
         writer.write(frame)
         
