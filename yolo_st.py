@@ -50,7 +50,7 @@ def load_file(option):
 file1 = load_file(option)
 #os.mkdir("HOME/temp")
 folder_path = "."
-temp_loc = "sample_video1.mp4"
+temp_loc = "sample_video1.webm"
 with open(temp_loc,"wb") as f:
     print("the temp file is being created")
     f.close()
@@ -196,7 +196,7 @@ elif option=="VIDEO":
             #Initialize our video writer to write the output video with predictions to output path specified on disk
             #out_path = "."
             #video_out_path = os.path.join(out_path,file1)
-            fourcc = cv2.VideoWriter_fourcc(*'XVID')
+            fourcc = cv2.VideoWriter_fourcc(*'VP90')
             writer = cv2.VideoWriter(file2, fourcc, 30, (1280, 720), True) # write the output frame to disk
         writer.write(frame)
         
