@@ -199,15 +199,15 @@ elif option=="VIDEO":
             #out_path = "."
             #video_out_path = os.path.join(out_path,file1)
             vid_out_path = os.path.join(output_path,file1)
-            fourcc = cv2.VideoWriter_fourcc(*'avc1')
-            writer = cv2.VideoWriter(file2, fourcc, 30, (frame.shape[1], frame.shape[0]), True) # write the output frame to disk
+            fourcc = cv2.VideoWriter_fourcc(*'h246')
+            writer = cv2.VideoWriter(vid_out_path, fourcc, 30, (frame.shape[1], frame.shape[0]), True) # write the output frame to disk
         writer.write(frame)
         
         
     writer.release()
     vid.release()
     #f.close()
-    st.video(file2)
+    st.video(vid_out_path)
     st.write("The folder path is ",os.listdir("."))
     st.write("=========================Done====================================")
         
