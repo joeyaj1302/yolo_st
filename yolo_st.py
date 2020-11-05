@@ -51,8 +51,9 @@ file1 = load_file(option)
 #os.mkdir("HOME/temp")
 folder_path = "."
 temp_loc = "sample_video1.mp4"
-with open(temp_loc,"w") as f:
-    pass
+with open(temp_loc,"wb") as f:
+    print("the temp file is being created")
+    f.close()
 file2 = os.path.join(folder_path,temp_loc)
 
 main_path = "main_path"
@@ -201,7 +202,7 @@ elif option=="VIDEO":
         
     writer.release()
     vid.release()
-    f.close()
+    #f.close()
     st.video(file2)
     st.write("=========================Done====================================")
         
