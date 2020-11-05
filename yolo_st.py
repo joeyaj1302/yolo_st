@@ -189,14 +189,14 @@ elif option=="VIDEO":
 	        #st.image("video",frame)
         #Check if the video writer is None
         i+=1
-        if i%45==0:
-            st.image(frame,"video")
+            if i%45==0:
+                st.image(frame,"video")
             #cv2.imwrite("out_path4\img{}.jpg".format(i),frame)       
         if writer is None:
             #Initialize our video writer to write the output video with predictions to output path specified on disk
             #out_path = "."
             #video_out_path = os.path.join(out_path,file1)
-            fourcc = cv2.VideoWriter_fourcc(*'H264')
+            fourcc = cv2.VideoWriter_fourcc(*'MJPG')
             writer = cv2.VideoWriter(file2, fourcc, 30, (frame.shape[1], frame.shape[0]), True) # write the output frame to disk
         writer.write(frame)
         
