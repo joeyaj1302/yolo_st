@@ -201,6 +201,7 @@ elif option=="VIDEO":
         
     writer.release()
     vid.release()
+    f.close()
     st.video(file2)
     st.write("=========================Done====================================")
         
