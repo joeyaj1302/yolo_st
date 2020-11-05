@@ -48,7 +48,8 @@ def load_file(option):
         return os.path.join(folder_path,temporary_location)
 
 file1 = load_file(option)
-folder_path = "."
+os.mkdir("HOME/temp")
+folder_path = "HOME/temp"
 temp_loc = "sample_video.mp4"
 file2 = os.path.join(folder_path,temp_loc)
 
@@ -132,10 +133,10 @@ elif option=="VIDEO":
     #video_path = os.path.join(main_path,a)
     vid = cv2.VideoCapture(file1)
     st.write("The Machine learning model is being fed by your video")
-    os.mkdir('out_path4')
-    temp = "sample.mp4"
-    video_out_path = os.path.join('out_path4',temp)
-    st.write(video_out_path)
+    #os.mkdir('out_path4')
+    #temp = "sample.mp4"
+    #video_out_path = os.path.join('out_path4',temp)
+    st.write(file1)
     i=0
     while True:
         (confirmed , frame) = vid.read() #getting frames from video stream
