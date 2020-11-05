@@ -52,7 +52,7 @@ file1 = load_file(option)
 folder_path = "/tmp"
 temp_loc = "sample_video.mp4"
 with open(temp_loc,"wb") as f:
-	pass
+    pass
 file2 = os.path.join(folder_path,temp_loc)
 
 main_path = "main_path"
