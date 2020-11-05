@@ -50,7 +50,7 @@ def load_file(option):
 file1 = load_file(option)
 #os.mkdir("HOME/temp")
 folder_path = "."
-temp_loc = "sample_video1.webm"
+temp_loc = "sample_video1.mp4"
 with open(temp_loc,"wb") as f:
     print("the temp file is being created")
     f.close()
@@ -148,7 +148,7 @@ elif option=="VIDEO":
         if W is None and H is None:
             (H,W) = frame.shape[:2]
          
-        blob = cv2.dnn.blobFromImage(frame, 1/255.0, (416, 416), swapRB=False, crop=False)  #BLob is similar to Image augmentation present in image data generators                                                                                         
+        blob = cv2.dnn.blobFromImage(frame, 1/255.0, (416, 416), swapRB=True, crop=False)  #BLob is similar to Image augmentation present in image data generators                                                                                         
         model.setInput(blob)                                                                 #of tensorflow
         start = time.time()
         layer_outputs = model.forward(ln)         #The captured frame is being passsed into the yolo model and the output is stored in layer_outputs
@@ -196,8 +196,8 @@ elif option=="VIDEO":
             #Initialize our video writer to write the output video with predictions to output path specified on disk
             #out_path = "."
             #video_out_path = os.path.join(out_path,file1)
-            fourcc = cv2.VideoWriter_fourcc('X','2','6','4')
-            writer = cv2.VideoWriter(file2, fourcc, 30, (640, 480), True) # write the output frame to disk
+            fourcc = cv2.VideoWriter_fourcc('*'H264')
+            writer = cv2.VideoWriter(file2, fourcc, 30, (frame.shape[1], frame.shape[0]), True) # write the output frame to disk
         writer.write(frame)
         
     writer.release()
