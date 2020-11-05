@@ -10,10 +10,12 @@ from PIL import Image
 
 st.set_option('deprecation.showfileUploaderEncoding', False)
 st.title("Welcome to the Object detection Web App")
+image = Image.open("street_output.png")
+st.image(image,caption = 'Example of object detection by this web-app',width = 650)
 if st.checkbox("Click here for a short description of how the yolo algorithm works"):
     image = Image.open("yolo_image.PNG")
     st.markdown("**The image below shows the working of the _YOLO_ algorithm**")
-    st.image(image,width = 650)
+    
     st.markdown('''### **YOLO** or  you only look once is a state of the art object detection algorithm made by Joseph Redmon and trained by the darknet team. In simple words the algorithm:
     1. Divides the image or the frame of the video in a grid of SxS squares 
     2. Detects and gives the bounding boxes(x & y co-ordinates of detections with h & w)
@@ -22,6 +24,7 @@ if st.checkbox("Click here for a short description of how the yolo algorithm wor
         object properly
     4. And lastly a score is generated which shows the probabilty of the prediction
         in  the bounding box  ''')
+    st.image(image,width = 650)
 
 st.write("For more detailed information on YOLO algorithm and its uses check the urls in the sidebar")
 st.sidebar.markdown('''### Click on the following URLs for detailed explaination:
@@ -51,10 +54,10 @@ file1 = load_file(option)
 #os.mkdir("HOME/temp")
 folder_path = "."
 temp_loc = "sample_video1.mp4"
-with open(temp_loc,"w") as f:
-    print("the temp file is being created")
-    f.close()
-file2 = os.path.join(folder_path,temp_loc)
+#with open(temp_loc,"wb") as f:
+    #print("the temp file is being created")
+    #f.close()
+#file2 = os.path.join(folder_path,temp_loc)
 
 main_path = "main_path"
 output_path = "output_path"
@@ -135,11 +138,19 @@ elif option=="VIDEO":
     (W,H) = (None,None)
     #video_path = os.path.join(main_path,a)
     vid = cv2.VideoCapture(file1)
-    st.write("The Machine learning model is being fed by your video")
+    st.write("---------------------------------------------------------------")
+    st.header("Your video is  being fed to the Machine learning model")
+    st.write("---------------------------------------------------------------")
     #os.mkdir('out_path4')
     #temp = "sample.mp4"
     #video_out_path = os.path.join('out_path4',temp)
-    st.write(file1)
+    #st.write(file1)
+    st.markdown("""Note : Due to Heroku's ephemeral file system the written output video file 
+                    does not get played and is erased from temp memory. So instead i,ve provided 
+                    the option to view the frames while its being processed in real time.
+                    It will keep populating the webpage with processed frames. 
+                """)
+    option2 = st.checkbox("Click here to view the frames being processed in real time")
     
     while True:
         i=0
@@ -190,25 +201,27 @@ elif option=="VIDEO":
 	        #st.image("video",frame)
             #Check if the video writer is None
                # i+=1
-            if i%30==0:
+            if option2:
                 frame1 = cv2.resize(frame,(720,400))
+                frame1 = cv2.cvtColor(frame1,cv2.COLOR_BGR2RGB)
                 st.image(frame1,"video")
             #cv2.imwrite("out_path4\img{}.jpg".format(i),frame)       
-        if writer is None:
+        #if writer is None:
             #Initialize our video writer to write the output video with predictions to output path specified on disk
             #out_path = "."
             #video_out_path = os.path.join(out_path,file1)
             #vid_out_path = os.path.join(output_path,file1)
-            fourcc = cv2.VideoWriter_fourcc(*'x246')
-            writer = cv2.VideoWriter(file2, fourcc, 30, (frame.shape[1], frame.shape[0]), True) # write the output frame to disk
-        writer.write(frame)
+            #fourcc = cv2.VideoWriter_fourcc(*'x246')
+            #writer = cv2.VideoWriter(file2, fourcc, 30, (frame.shape[1], frame.shape[0]), True) # write the output frame to disk
+        #writer.write(frame)
         
         
-    writer.release()
-    vid.release()
+    #writer.release()
+    #vid.release()
     #f.close()
-    st.video(file2)
-    st.write("The folder path is ",os.listdir("."))
+    #st.video(file2)
+    #st.write("The folder path is ",os.listdir("."))
     st.write("=========================Done====================================")
         
     #shutil.rmtree('out_path4', ignore_errors=True)           
+
