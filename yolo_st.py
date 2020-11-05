@@ -49,9 +49,9 @@ def load_file(option):
 
 file1 = load_file(option)
 #os.mkdir("HOME/temp")
-folder_path = "/tmp"
-temp_loc = "sample_video.mp4"
-with open(temp_loc,"wb") as f:
+folder_path = "."
+temp_loc = "sample_video1.mp4"
+with open(temp_loc,"w") as f:
     pass
 file2 = os.path.join(folder_path,temp_loc)
 
