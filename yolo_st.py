@@ -6,7 +6,7 @@ import os
 import time
 import io
 from PIL import Image
-import shutil
+#import shutil
 
 st.set_option('deprecation.showfileUploaderEncoding', False)
 st.title("Welcome to the Object detection Web App")
@@ -205,4 +205,4 @@ elif option=="VIDEO":
     st.video(file2)
     st.write("=========================Done====================================")
         
-    shutil.rmtree('out_path4', ignore_errors=True)           
+    #shutil.rmtree('out_path4', ignore_errors=True)           
