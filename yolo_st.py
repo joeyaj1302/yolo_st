@@ -140,8 +140,9 @@ elif option=="VIDEO":
     #temp = "sample.mp4"
     #video_out_path = os.path.join('out_path4',temp)
     st.write(file1)
-    i=0
+    
     while True:
+        i=0
         (confirmed , frame) = vid.read() #getting frames from video stream
         if not confirmed:
             break
@@ -188,17 +189,20 @@ elif option=="VIDEO":
                 #cv2.imshow("video",frame)  #For displaying the frame being passed through the model and showing real time predictions
 	        #st.image("video",frame)
             #Check if the video writer is None
-            if i%45==0:
-                st.image(frame,"video")
+               # i+=1
+            if i%30==0:
+                frame1 = cv2.resize(frame,(720,400))
+                st.image(frame1,"video")
             #cv2.imwrite("out_path4\img{}.jpg".format(i),frame)       
         if writer is None:
             #Initialize our video writer to write the output video with predictions to output path specified on disk
             #out_path = "."
             #video_out_path = os.path.join(out_path,file1)
-            fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+            vid_out_path = os.path.join(output_path,file1)
+            fourcc = cv2.VideoWriter_fourcc(*'H264')
             writer = cv2.VideoWriter(file2, fourcc, 30, (frame.shape[1], frame.shape[0]), True) # write the output frame to disk
         writer.write(frame)
-        i+=1
+        
         
     writer.release()
     vid.release()
