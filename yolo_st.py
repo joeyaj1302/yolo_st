@@ -48,8 +48,8 @@ def load_file(option):
         return os.path.join(folder_path,temporary_location)
 
 file1 = load_file(option)
-os.mkdir("HOME/temp")
-folder_path = "HOME/temp"
+#os.mkdir("HOME/temp")
+folder_path = "/tmp"
 temp_loc = "sample_video.mp4"
 file2 = os.path.join(folder_path,temp_loc)
 
@@ -197,8 +197,6 @@ elif option=="VIDEO":
             writer = cv2.VideoWriter(file2, fourcc, 30,(frame.shape[1], frame.shape[0]), True) # write the output frame to disk
         writer.write(frame)
         
-
-    
     writer.release()
     vid.release()
     st.video(file2)
