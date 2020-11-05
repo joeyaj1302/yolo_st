@@ -196,14 +196,15 @@ elif option=="VIDEO":
             #Initialize our video writer to write the output video with predictions to output path specified on disk
             #out_path = "."
             #video_out_path = os.path.join(out_path,file1)
-            fourcc = cv2.VideoWriter_fourcc(*'H264')
-            writer = cv2.VideoWriter(file2, fourcc, 30,(frame.shape[1], frame.shape[0]), True) # write the output frame to disk
+            fourcc = cv2.VideoWriter_fourcc(*'XVID')
+            writer = cv2.VideoWriter(file2, fourcc, 30, (1280, 720), True) # write the output frame to disk
         writer.write(frame)
         
     writer.release()
     vid.release()
     #f.close()
     st.video(file2)
+    st.write("The folder path is ",os.listdir("."))
     st.write("=========================Done====================================")
         
     #shutil.rmtree('out_path4', ignore_errors=True)           
