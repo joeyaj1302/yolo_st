@@ -6,6 +6,8 @@ import os
 import time
 import io
 from PIL import Image
+import base64
+import imageio
 #import shutil
 
 st.set_option('deprecation.showfileUploaderEncoding', False)
@@ -124,7 +126,7 @@ if option=="IMAGE":
             cv2.rectangle(image, (x, y), (x + w, y + h), color, 2)                 #drawing the bounding boxes over the detections
             text = "{}: {}%".format(LABELS[classIDs[i]], int(confidences[i]*100))  #Annotating the text of the class label
             cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,
-                0.5, color, 1)
+                1, color, 2)
     st.image(file1,caption = "This was your selected image")
     st.write("==============================================================")
     st.image(image,"The detections on your selected image")
@@ -151,9 +153,9 @@ elif option=="VIDEO":
                     It will keep populating the webpage with processed frames. 
                 """)
     option2 = st.checkbox("Click here to view the frames being processed in real time")
-    
+    i=0
     while True:
-        i=0
+        
         (confirmed , frame) = vid.read() #getting frames from video stream
         if not confirmed:
             break
@@ -170,7 +172,7 @@ elif option=="VIDEO":
         boxes = []
         confidences = []
         classIDs = []
-        
+        #images = []
         for outputs in layer_outputs:
             for detection in outputs:
                 scores = detection[5:]
@@ -196,15 +198,24 @@ elif option=="VIDEO":
                 color = [int(c) for c in COLORS[classIDs[i]]]
                 cv2.rectangle(frame,(x,y),(x+w,y+h),color,3)
                 text = "{}: {}%".format(LABELS[classIDs[i]], int(confidences[i]*100))
-                cv2.putText(frame,text,(x, y - 5),cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, color, 2)
+                cv2.putText(frame,text,(x, y - 5),cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.5, color, 2)
                 #cv2.imshow("video",frame)  #For displaying the frame being passed through the model and showing real time predictions
 	        #st.image("video",frame)
             #Check if the video writer is None
                # i+=1
-            if option2:
-                frame1 = cv2.resize(frame,(720,400))
-                frame1 = cv2.cvtColor(frame1,cv2.COLOR_BGR2RGB)
+            frame1 = cv2.resize(frame,(720,400))
+            frame1 = cv2.cvtColor(frame1,cv2.COLOR_BGR2RGB)
+            frame2 = Image.fromarray(frame1)
+            frame2 = frame2.save("output_path/{}.jpg".format(np.random.randint(0,150)))
+            if option2 == True:
+
                 st.image(frame1,"video")
+                
+                #images.append(frame2)
+                #folder = "output"
+                
+                
+
             #cv2.imwrite("out_path4\img{}.jpg".format(i),frame)       
         #if writer is None:
             #Initialize our video writer to write the output video with predictions to output path specified on disk
@@ -214,6 +225,8 @@ elif option=="VIDEO":
             #fourcc = cv2.VideoWriter_fourcc(*'x246')
             #writer = cv2.VideoWriter(file2, fourcc, 30, (frame.shape[1], frame.shape[0]), True) # write the output frame to disk
         #writer.write(frame)
+            #images[0].save('out_img.gif',
+                  #  save_all=True, append_images=images[1:], optimize=False, duration=40, loop=0)
         
         
     #writer.release()
@@ -221,7 +234,19 @@ elif option=="VIDEO":
     #f.close()
     #st.video(file2)
     #st.write("The folder path is ",os.listdir("."))
+    folder = 'output_path' 
+    files = [f"{folder}//{file}" for file in os.listdir(folder)]
+    images = [imageio.imread(file) for file in files]
+    imageio.mimwrite('./movie1.gif', images, fps=1)
+    file_ = open('./movie1.gif', "rb")
+    contents = file_.read()
+    data_url = base64.b64encode(contents).decode("utf-8")
+    file_.close()
+
+    st.markdown(
+        f'<img src="data:image/gif;base64,{data_url}" alt="cat gif">',
+        unsafe_allow_html=True,
+    )
     st.write("=========================Done====================================")
         
     #shutil.rmtree('out_path4', ignore_errors=True)           
-
