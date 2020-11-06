@@ -233,10 +233,11 @@ elif option=="VIDEO":
     #vid.release()
     #f.close()
     #st.video(file2)
-    #st.write("The folder path is ",os.listdir("."))
+    st.write("The files in the folder is is ",os.listdir("."))
+    st.write("the files in output_path directory is:", os.listdir("output_path"))
     folder = 'output_path' 
     files = [f"{folder}//{file}" for file in os.listdir(folder)]
-    images = [imageio.imread(file) for file in files]
+    images = [imageio.imread(file,pilmode="RGB") for file in files]
     imageio.mimwrite('./movie1.gif', images, fps=1)
     file_ = open('./movie1.gif', "rb")
     contents = file_.read()
