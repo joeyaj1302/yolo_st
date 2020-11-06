@@ -206,7 +206,7 @@ elif option=="VIDEO":
             frame1 = cv2.resize(frame,(720,400))
             frame1 = cv2.cvtColor(frame1,cv2.COLOR_BGR2RGB)
             frame2 = Image.fromarray(frame1)
-            frame2 = frame2.save("output_path/{}.jpg".format(np.random.randint(0,150)))
+            frame2 = frame2.save("output_path/{}.png".format(np.random.randint(0,150)))
             if option2 == True:
 
                 st.image(frame1,"video")
@@ -236,7 +236,7 @@ elif option=="VIDEO":
     st.write("The files in the folder is is ",os.listdir("."))
     st.write("the files in output_path directory is:", os.listdir("output_path"))
     folder = 'output_path' 
-    files = [f"{folder}//{file}" for file in os.listdir(folder)]
+    files = [f"{folder}/{file}" for file in os.listdir(folder)]
     images = [imageio.imread(file,pilmode="RGB") for file in files]
     imageio.mimwrite('./movie1.gif', images, fps=1)
     file_ = open('./movie1.gif', "rb")
