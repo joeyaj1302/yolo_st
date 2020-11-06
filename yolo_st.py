@@ -3,16 +3,21 @@ import streamlit as st
 import cv2
 import numpy as np
 import os
-import io
 import time
+import io
 from PIL import Image
+import base64
+import imageio
+#import shutil
 
 st.set_option('deprecation.showfileUploaderEncoding', False)
 st.title("Welcome to the Object detection Web App")
+image = Image.open("street_output.png")
+st.image(image,caption = 'Example of object detection by this web-app',width = 650)
 if st.checkbox("Click here for a short description of how the yolo algorithm works"):
     image = Image.open("yolo_image.PNG")
     st.markdown("**The image below shows the working of the _YOLO_ algorithm**")
-    st.image(image,width = 650)
+    
     st.markdown('''### **YOLO** or  you only look once is a state of the art object detection algorithm made by Joseph Redmon and trained by the darknet team. In simple words the algorithm:
     1. Divides the image or the frame of the video in a grid of SxS squares 
     2. Detects and gives the bounding boxes(x & y co-ordinates of detections with h & w)
@@ -21,11 +26,10 @@ if st.checkbox("Click here for a short description of how the yolo algorithm wor
         object properly
     4. And lastly a score is generated which shows the probabilty of the prediction
         in  the bounding box  ''')
+    st.image(image,width = 650)
 
 st.write("For more detailed information on YOLO algorithm and its uses check the urls in the sidebar")
 st.sidebar.markdown('''### Click on the following URLs for detailed explaination:
-
-
 1. https://arxiv.org/pdf/1506.02640.pdf
 2. https://www.coursera.org/lecture/convolutional-neural-networks/yolo-algorithm-fF3O0 
 3. https://manalelaidouni.github.io/manalelaidouni.github.io/Understanding%20YOLO%20and%20YOLOv2.html''')
@@ -49,6 +53,13 @@ def load_file(option):
         return os.path.join(folder_path,temporary_location)
 
 file1 = load_file(option)
+#os.mkdir("HOME/temp")
+folder_path = "."
+temp_loc = "sample_video1.mp4"
+#with open(temp_loc,"wb") as f:
+    #print("the temp file is being created")
+    #f.close()
+#file2 = os.path.join(folder_path,temp_loc)
 
 main_path = "main_path"
 output_path = "output_path"
@@ -74,11 +85,11 @@ if option=="IMAGE":
     # determine only the *output* layer names that we need from YOLO
     #creating blob from image and passing it into the yolo model
     blob = cv2.dnn.blobFromImage(image, 1 / 255.0, (416, 416),
-	swapRB=True, crop=False)
+	swapRB=False, crop=False)
     model.setInput(blob)
-    #start = time.time()
+    start = time.time()
     layerOutputs = model.forward(ln)
-    #end = time.time()
+    end = time.time()
 
     # initialize our lists of detected bounding boxes, confidences, and
     # class IDs, respectively
@@ -116,8 +127,7 @@ if option=="IMAGE":
             text = "{}: {}%".format(LABELS[classIDs[i]], int(confidences[i]*100))  #Annotating the text of the class label
             cv2.putText(image, text, (x, y - 5), cv2.FONT_HERSHEY_SIMPLEX,
                 1, color, 2)
-    img = Image.open(file1)
-    st.image(img,caption = "This was your selected image")
+    st.image(file1,caption = "This was your selected image")
     st.write("==============================================================")
     st.image(image,"The detections on your selected image")
 
@@ -130,9 +140,22 @@ elif option=="VIDEO":
     (W,H) = (None,None)
     #video_path = os.path.join(main_path,a)
     vid = cv2.VideoCapture(file1)
-    st.write("The Machine learning model is being fed by your video")	
-    st.write(str(file1))
+    st.write("---------------------------------------------------------------")
+    st.header("Your video is  being fed to the Machine learning model")
+    st.write("---------------------------------------------------------------")
+    #os.mkdir('out_path4')
+    #temp = "sample.mp4"
+    #video_out_path = os.path.join('out_path4',temp)
+    #st.write(file1)
+    st.markdown("""Note : Due to Heroku's ephemeral file system the written output video file 
+                    does not get played and is erased from temp memory. So instead i,ve provided 
+                    the option to view the frames while its being processed in real time.
+                    It will keep populating the webpage with processed frames. 
+                """)
+    option2 = st.checkbox("Click here to view the frames being processed in real time")
+    i=0
     while True:
+        
         (confirmed , frame) = vid.read() #getting frames from video stream
         if not confirmed:
             break
@@ -149,7 +172,7 @@ elif option=="VIDEO":
         boxes = []
         confidences = []
         classIDs = []
-        
+        #images = []
         for outputs in layer_outputs:
             for detection in outputs:
                 scores = detection[5:]
@@ -176,19 +199,55 @@ elif option=="VIDEO":
                 cv2.rectangle(frame,(x,y),(x+w,y+h),color,3)
                 text = "{}: {}%".format(LABELS[classIDs[i]], int(confidences[i]*100))
                 cv2.putText(frame,text,(x, y - 5),cv2.FONT_HERSHEY_COMPLEX_SMALL, 0.5, color, 2)
-                #cv2.imshow("video",frame)               #For displaying the frame being passed through the model and showing real time predictions
+                #cv2.imshow("video",frame)  #For displaying the frame being passed through the model and showing real time predictions
+	        #st.image("video",frame)
+            #Check if the video writer is None
+               # i+=1
+            frame1 = cv2.resize(frame,(720,400))
+            frame1 = cv2.cvtColor(frame1,cv2.COLOR_BGR2RGB)
+            frame2 = Image.fromarray(frame1)
+            frame2 = frame2.save("output_path/{}.jpg".format(np.random.randint(0,150)))
+            if option2 == True:
 
-        #Check if the video writer is None
-        if writer is None:
+                st.image(frame1,"video")
+                
+                #images.append(frame2)
+                #folder = "output"
+                
+                
+
+            #cv2.imwrite("out_path4\img{}.jpg".format(i),frame)       
+        #if writer is None:
             #Initialize our video writer to write the output video with predictions to output path specified on disk
-            video_out_path = os.path.join(output_path,file1)
-            fourcc = cv2.VideoWriter_fourcc(*'H264')
-            writer = cv2.VideoWriter(video_out_path, fourcc, 30,(frame.shape[1], frame.shape[0]), True)
+            #out_path = "."
+            #video_out_path = os.path.join(out_path,file1)
+            #vid_out_path = os.path.join(output_path,file1)
+            #fourcc = cv2.VideoWriter_fourcc(*'x246')
+            #writer = cv2.VideoWriter(file2, fourcc, 30, (frame.shape[1], frame.shape[0]), True) # write the output frame to disk
+        #writer.write(frame)
+            #images[0].save('out_img.gif',
+                  #  save_all=True, append_images=images[1:], optimize=False, duration=40, loop=0)
+        
+        
+    #writer.release()
+    #vid.release()
+    #f.close()
+    #st.video(file2)
+    st.write("The files in the folder is is ",os.listdir("."))
+    st.write("the files in output_path directory is:", os.listdir("output_path"))
+    folder = 'output_path' 
+    files = [f"{folder}//{file}" for file in os.listdir(folder)]
+    images = [imageio.imread(file) for file in files]
+    imageio.mimwrite('./movie1.gif', images, fps=1)
+    file_ = open('./movie1.gif', "rb")
+    contents = file_.read()
+    data_url = base64.b64encode(contents).decode("utf-8")
+    file_.close()
 
-        # write the output frame to disk
-        writer.write(frame)
-
-    writer.release()
-    vid.release()
+    st.markdown(
+        f'<img src="data:image/gif;base64,{data_url}" alt="cat gif">',
+        unsafe_allow_html=True,
+    )
     st.write("=========================Done====================================")
-    st.video(video_out_path)              
+        
+    #shutil.rmtree('out_path4', ignore_errors=True)           
