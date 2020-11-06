@@ -237,7 +237,7 @@ elif option=="VIDEO":
     st.write("the files in output_path directory is:", os.listdir("output_path"))
     folder = 'output_path' 
     files = [f"{folder}//{file}" for file in os.listdir(folder)]
-    images = [imageio.imread(file,pilmode="RGB") for file in files]
+    images = [imageio.imread(file) for file in files]
     imageio.mimwrite('./movie1.gif', images, fps=1)
     file_ = open('./movie1.gif', "rb")
     contents = file_.read()
