@@ -6,8 +6,6 @@ import os
 import time
 import io
 from PIL import Image
-import base64
-import imageio
 #import shutil
 
 st.set_option('deprecation.showfileUploaderEncoding', False)
@@ -153,9 +151,9 @@ elif option=="VIDEO":
                     It will keep populating the webpage with processed frames. 
                 """)
     option2 = st.checkbox("Click here to view the frames being processed in real time")
-    i=0
+    
     while True:
-        
+        i=0
         (confirmed , frame) = vid.read() #getting frames from video stream
         if not confirmed:
             break
@@ -172,7 +170,7 @@ elif option=="VIDEO":
         boxes = []
         confidences = []
         classIDs = []
-        #images = []
+        
         for outputs in layer_outputs:
             for detection in outputs:
                 scores = detection[5:]
@@ -203,19 +201,10 @@ elif option=="VIDEO":
 	        #st.image("video",frame)
             #Check if the video writer is None
                # i+=1
-            frame1 = cv2.resize(frame,(720,400))
-            frame1 = cv2.cvtColor(frame1,cv2.COLOR_BGR2RGB)
-            frame2 = Image.fromarray(frame1)
-            frame2 = frame2.save("output_path/{}.jpg".format(np.random.randint(0,150)))
             if option2 == True:
-
-                st.image(frame1,"video")
-                
-                #images.append(frame2)
-                #folder = "output"
-                
-                
-
+                frame1 = cv2.resize(frame,(720,400))
+                frame1 = cv2.cvtColor(frame1,cv2.COLOR_BGR2RGB)
+                st.image(frame1,"Object detection on this frame")
             #cv2.imwrite("out_path4\img{}.jpg".format(i),frame)       
         #if writer is None:
             #Initialize our video writer to write the output video with predictions to output path specified on disk
@@ -225,29 +214,13 @@ elif option=="VIDEO":
             #fourcc = cv2.VideoWriter_fourcc(*'x246')
             #writer = cv2.VideoWriter(file2, fourcc, 30, (frame.shape[1], frame.shape[0]), True) # write the output frame to disk
         #writer.write(frame)
-            #images[0].save('out_img.gif',
-                  #  save_all=True, append_images=images[1:], optimize=False, duration=40, loop=0)
         
         
     #writer.release()
     #vid.release()
     #f.close()
     #st.video(file2)
-    st.write("The files in the folder is is ",os.listdir("."))
-    st.write("the files in output_path directory is:", os.listdir("output_path"))
-    folder = 'output_path' 
-    files = [f"{folder}//{file}" for file in os.listdir(folder)]
-    images = [imageio.imread(file) for file in files]
-    imageio.mimwrite('./movie1.gif', images, fps=1)
-    file_ = open('./movie1.gif', "rb")
-    contents = file_.read()
-    data_url = base64.b64encode(contents).decode("utf-8")
-    file_.close()
-
-    st.markdown(
-        f'<img src="data:image/gif;base64,{data_url}" alt="cat gif">',
-        unsafe_allow_html=True,
-    )
+    #st.write("The folder path is ",os.listdir("."))
     st.write("=========================Done====================================")
         
     #shutil.rmtree('out_path4', ignore_errors=True)           
